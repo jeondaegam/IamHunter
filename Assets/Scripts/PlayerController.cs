@@ -7,11 +7,14 @@ public class PlayerController : MonoBehaviour
     public CharacterController characterController;
 
     public float walkingSpeed = 7f;
-    public float mouseSens = 10f;
 
-    // 카메라 
+
+    // 마우스 움직임에 따른 카메라 시선 처리
+    // 마우스 감도
+    public float mouseSens = 10f;
+    // 카메라가 바라보는 방향 
     public Transform cameraTransform;
-    // 회전 각도 제한
+    // 회전한 각도
     private float verticalAngle;
     private float horizontalAngle;
 
@@ -29,51 +32,86 @@ public class PlayerController : MonoBehaviour
         characterController = GetComponent<CharacterController>();
 
         verticalSpeed = 0;
-        verticalAngle = 0;
+
+        // 수직 각도는 0 으로 맞춘다(스폰됐는데 옆으로 기우뚱 하는 상태면 안되겠지 ? )  
+        verticalAngle = 0; // == Player의 transform.rotation.x
+        // 수평 각도(좌우)는 0이 아닐 수도 있다 (내가 캐릭터를 배치하고 각도를 바꿔놓으면 다를 수 있음
+        // == Player의 transform.rotation.y값 
         horizontalAngle = transform.localEulerAngles.y; // player 캐릭터의 y축 각도를 가져옴 (좌우 어느 방향을 보고있는지 )
+
     }
 
     private void Update()
     {
-        // 방향 입력받기
+        // 1. 방향 입력받기 : 입력받은 방향
+        // "Horizontal" : 방향키, a, d
+        // "Vertical" : 방향키,w,s 
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
         if (move.magnitude > 1)
         {
+            // 벡터의 크기를 1로 맞춰준다 .
+            // 왜 ? 대각선으로 움직이면 더 빨라지는 상황을 막기 위해 
             move.Normalize();
         }
 
-        move = transform.TransformDirection(move);
+        // 방향에 속도를 곱해준다
         move = move * walkingSpeed * Time.deltaTime;
+        // 캐릭터가 바라보는 방향이 계속해서 바뀌므로 캐릭터가 바라보는 방향 기준으로 move 방향벡터를 변환한다.
+        // 안할경우 바라보는 방향과 무관하게 움직임 
+        move = transform.TransformDirection(move);
 
-        // 이동 
+        // 2. 이동 
         characterController.Move(move);
 
 
-        // 좌우 마우스 
+
+        // 3. 좌우 마우스 입력
         float turnPlayer = Input.GetAxis("Mouse X") * mouseSens;
+        // 마우스로 움직인 값만큼 수평 회전 각도에 더해준다  
         horizontalAngle += turnPlayer;
 
+        // 각도가 0 ~ 360을 유지하도록 설정 
+        // 예: 360도를 회전했다면 -360을 더해서 0도로 만들어준다 
         if (horizontalAngle > 360) horizontalAngle -= 360;
         if (horizontalAngle < 0) horizontalAngle += 360;
 
 
-        // .. ? 41강 컨트롤러 만들기 .. 이해 안됨 
+        // 3-1. 플레이어의 각도(rotation) 변경 -----------
+
+        // 현재 플레이어의 rotation 값을 가져온다 
         Vector3 currentAngle = transform.localEulerAngles;
+
+        // y축 값만 마우스로 입력받은 값을 넣는다.
+        // 나머지는 현재값 유지
+        // 참고: 좌우 이동하려면 y축을 회전시켜야함 
         currentAngle.y = horizontalAngle;
+
+        // 플레이어의 rotation값을 변경한다. 
         transform.localEulerAngles = currentAngle;
 
+        // transform.localEulerAngles.y 요런식으로 사용 못하고 통째로 가져와서 바꾼 뒤 다시 넣어주는 방식을 사용해야 한다 
+        //  -----------
 
 
-        // 상하 마우스
+        // 4. 상하 마우스 입력 
         float turnCam = Input.GetAxis("Mouse Y") * mouseSens;
+
+        // 마우스로 움직인 값만큼 각도를 빼준다 .
+        // 왜 ? 마우스 커서와 실제 각도의 +,-값이 반대이기 때문
+        // 마우스 커서가 위(+)로 갈수록 실제 x축 각도는 -값을 가진다 
         verticalAngle -= turnCam;
+
+        // verticalAngle의 최소값과 최대값 설정
+        // 위나 아래를 바라봤을 때 막 360도 돌아가버리면 안되잖아 ~ 
         verticalAngle = Mathf.Clamp(verticalAngle, -89f, 89f);
+        // 카메라의 현재 각도를 가져온다 
         currentAngle = cameraTransform.localEulerAngles;
+        // 카메라의 x축에만 마우스로 입력받은 값을 넣는다 
         currentAngle.x = verticalAngle;
         cameraTransform.localEulerAngles = currentAngle;
 
-
+        // TODO Q. 좌우 화면은 transform으로 조절하는데 상하 화면은 cameraTransform을 이용하는가 ? 
 
         // 42강. 낙하
         // - 가 붙으면 아래로 떨어진다.
