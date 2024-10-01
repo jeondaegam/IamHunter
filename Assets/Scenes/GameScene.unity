@@ -618,13 +618,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.38268343, z: 0, w: 0.92387956}
+  m_LocalRotation: {x: 0.15137072, y: -0.37751204, z: 0.0626998, w: 0.9113947}
   m_LocalPosition: {x: 0, y: 0.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2110114180}
-  m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
+  m_LocalEulerAnglesHint: {x: 18.86, y: -45, z: 0}
 --- !u!1 &1036916033
 GameObject:
   m_ObjectHideFlags: 0
@@ -1281,6 +1281,7 @@ MonoBehaviour:
   walkingSpeed: 7
   mouseSens: 10
   cameraTransform: {fileID: 963194228}
+  jumpSpeed: 10
 --- !u!1001 &2700939956078166226
 PrefabInstance:
   m_ObjectHideFlags: 0

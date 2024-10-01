@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     public float walkingSpeed = 7f;
 
 
-    // 마우스 움직임에 따른 카메라 시선 처리
+    // 마우스 방향에 따른 카메라 회전
     // 마우스 감도
     public float mouseSens = 10f;
     // 카메라가 바라보는 방향 
@@ -18,7 +18,15 @@ public class PlayerController : MonoBehaviour
     private float verticalAngle;
     private float horizontalAngle;
 
-    float verticalSpeed;
+
+    // 낙하 
+    // 현재 추락하고있는 속도
+    private float verticalSpeed;
+
+    // 점프
+    public float jumpSpeed = 5f;
+    bool isGroundedLocalCheck;
+    float groundedTimer;
 
 
     // Start is called before the first frame update
@@ -31,7 +39,6 @@ public class PlayerController : MonoBehaviour
 
         characterController = GetComponent<CharacterController>();
 
-        verticalSpeed = 0;
 
         // 수직 각도는 0 으로 맞춘다(스폰됐는데 옆으로 기우뚱 하는 상태면 안되겠지 ? )  
         verticalAngle = 0; // == Player의 transform.rotation.x
@@ -39,6 +46,11 @@ public class PlayerController : MonoBehaviour
         // == Player의 transform.rotation.y값 
         horizontalAngle = transform.localEulerAngles.y; // player 캐릭터의 y축 각도를 가져옴 (좌우 어느 방향을 보고있는지 )
 
+        // 낙하 속도 초기화 
+        verticalSpeed = 0;
+
+        isGroundedLocalCheck = false;
+        groundedTimer = 0;
     }
 
     private void Update()
@@ -113,9 +125,9 @@ public class PlayerController : MonoBehaviour
 
         // TODO Q. 좌우 화면은 transform으로 조절하는데 상하 화면은 cameraTransform을 이용하는가 ? 
 
-        // 42강. 낙하
-        // - 가 붙으면 아래로 떨어진다.
-        // 중력 가속도는 10으로 고정 (떨어지는 속도를 주려고 하는건가본데? )
+        // 41강. 낙하
+        // - 가 붙으면 아래로 떨어진다. (-값이 점점 커질수록 점점 빨라짐)
+        // 중력 가속도는 10으로 고정 (떨어지는 속도를 설정)
         verticalSpeed -= 10 * Time.deltaTime;
         if (verticalSpeed < -10)
         {
@@ -125,19 +137,55 @@ public class PlayerController : MonoBehaviour
             verticalSpeed =-10;
         }
 
+        // 수직 방향의 방향벡터 설정 (떨어지는 방향) 
         Vector3 verticalMove = new Vector3(0, verticalSpeed, 0);
         verticalMove = verticalMove * Time.deltaTime;
 
-        // 이동하고 return값으로 CollisionFlags를 받아온다 
-        // CollisionFlags: 어딘가에 부딪혔는지 아닌지를 알 수 있다 ! (충돌정보를 리턴하나봄 ) 
+        // 이동.
+        // return값으로 충돌 정보가 담겨있는 CollisionFlags를 받아온다 
+        // CollisionFlags: 어딘가에 부딪혔는지 아닌지를 알 수 있다 ! 
         CollisionFlags flags = characterController.Move(verticalMove);
 
         // flags와  CollisionFlags.Below을 AND 연산 한다 .
         // flags안에 below가 있는가 ? 를 체크 
         if ((flags & CollisionFlags.Below) != 0)
         {
+            Debug.Log($"flags: {flags}");
+            Debug.Log($"CollisionFlags: {CollisionFlags.Below}");
             // 바닥하고 부딪혔다면 speed = 0
             verticalSpeed = 0;
+        }
+
+
+        // 컨트롤러 = 땅에 안붙어있어 !! 
+        if (!characterController.isGrounded)
+        {
+            // 로컬체크 = 땅에 붙어있는데 ? 
+            if(isGroundedLocalCheck)
+            {
+                // 얼마나 붙어있는지 시간 측정 
+                groundedTimer += Time.deltaTime;
+                // 안 붙어있는 시간이 0.5초 이상 넘어가면 
+                if (groundedTimer > 0.5f)
+                {
+                    // 0.5초 이상 컨트롤러가 땅에 안붙어있다고 하면 
+                    isGroundedLocalCheck = false;
+                }
+            }
+        } else
+        {
+            // 한번이라도 땅에 붙어있다고 했으니까 
+            isGroundedLocalCheck = true;
+            groundedTimer = 0;  
+        }
+
+        //Debug.Log($"isGrounded: {isGroundedLocalCheck}");
+
+        // 점프
+        if (isGroundedLocalCheck && Input.GetKeyDown("Jump"))
+        {
+            isGroundedLocalCheck = false;
+            verticalSpeed = jumpSpeed; // TODO 어케 이것만으로 점프가 되는건지 ? 
         }
 
     }
