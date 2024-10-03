@@ -150,8 +150,6 @@ public class PlayerController : MonoBehaviour
         // flags안에 below가 있는가 ? 를 체크 
         if ((flags & CollisionFlags.Below) != 0)
         {
-            Debug.Log($"flags: {flags}");
-            Debug.Log($"CollisionFlags: {CollisionFlags.Below}");
             // 바닥하고 부딪혔다면 speed = 0
             verticalSpeed = 0;
         }
@@ -179,10 +177,9 @@ public class PlayerController : MonoBehaviour
             groundedTimer = 0;  
         }
 
-        //Debug.Log($"isGrounded: {isGroundedLocalCheck}");
 
-        // 점프
-        if (isGroundedLocalCheck && Input.GetKeyDown("Jump"))
+        // 점프 : GetKeyDown (X) , GetButtonDown (O)
+        if (isGroundedLocalCheck && Input.GetButtonDown("Jump"))
         {
             isGroundedLocalCheck = false;
             verticalSpeed = jumpSpeed; // TODO 어케 이것만으로 점프가 되는건지 ? 
