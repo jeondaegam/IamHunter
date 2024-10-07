@@ -20,6 +20,8 @@ public class Weapon : MonoBehaviour
 
     // 발사 궤적 그리기
     public GameObject trailPrefab;
+    // 총구 위치
+    public GameObject firingPosition;
 
 
     void Start()
@@ -92,7 +94,7 @@ public class Weapon : MonoBehaviour
         if (trailPrefab != null)
         {
             GameObject trail = Instantiate(trailPrefab);
-            Vector3[] pos = new Vector3[] {transform.position, hitPosition};
+            Vector3[] pos = new Vector3[] {firingPosition.transform.position, hitPosition};
             // pos 배열에 들어있는 각 점들 사이에 선을 그린다. 
             trail.GetComponent<LineRenderer>().SetPositions(pos);
 

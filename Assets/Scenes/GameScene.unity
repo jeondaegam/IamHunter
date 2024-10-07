@@ -1248,6 +1248,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1947777625 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6883966187115392228, guid: 5eedb2f6f063b422dbcb4345efbe9bc3, type: 3}
+  m_PrefabInstance: {fileID: 3583166593925614480}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2025415255
 GameObject:
   m_ObjectHideFlags: 0
@@ -1574,49 +1579,6 @@ MonoBehaviour:
   mouseSens: 10
   cameraTransform: {fileID: 963194228}
   jumpSpeed: 5
---- !u!1 &2121150843 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4140711349463143186, guid: 5eedb2f6f063b422dbcb4345efbe9bc3, type: 3}
-  m_PrefabInstance: {fileID: 3583166593925614480}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &2121150844
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2121150843}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: dda7e4da057634baab9bf12d308f604a, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2121150845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2121150843}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f532c31d05f7d4b24a30adcfa56c638e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bullet: 8
-  totalBullet: 32
-  maxBulletInMagazine: 8
-  bulletNumberLabel: {fileID: 1504997209}
-  trailPrefab: {fileID: 8421345945288851348, guid: bcd6c69ec00f746d8985848ede637c41, type: 3}
 --- !u!1001 &2700939956078166226
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1682,14 +1644,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 963194228}
     m_Modifications:
-    - target: {fileID: 134468885930733491, guid: 5eedb2f6f063b422dbcb4345efbe9bc3, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2720503252799529360, guid: 5eedb2f6f063b422dbcb4345efbe9bc3, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3620071271454050728, guid: 5eedb2f6f063b422dbcb4345efbe9bc3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.161
@@ -1734,20 +1688,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: 1911
       objectReference: {fileID: 0}
-    - target: {fileID: 9094689090541890355, guid: 5eedb2f6f063b422dbcb4345efbe9bc3, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
+    - target: {fileID: 8712448729020861505, guid: 5eedb2f6f063b422dbcb4345efbe9bc3, type: 3}
+      propertyPath: firingPosition
+      value: 
+      objectReference: {fileID: 1947777625}
+    - target: {fileID: 8712448729020861505, guid: 5eedb2f6f063b422dbcb4345efbe9bc3, type: 3}
+      propertyPath: bulletNumberLabel
+      value: 
+      objectReference: {fileID: 1504997209}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4140711349463143186, guid: 5eedb2f6f063b422dbcb4345efbe9bc3, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2121150844}
-    - targetCorrespondingSourceObject: {fileID: 4140711349463143186, guid: 5eedb2f6f063b422dbcb4345efbe9bc3, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2121150845}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5eedb2f6f063b422dbcb4345efbe9bc3, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
