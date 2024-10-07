@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -17,6 +18,10 @@ public class Weapon : MonoBehaviour
     public int maxBulletInMagazine;
     public TextMeshProUGUI bulletNumberLabel;
 
+    // 발사 궤적 그리기
+    public GameObject trailPrefab;
+
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -29,6 +34,7 @@ public class Weapon : MonoBehaviour
         {
             bullet--;
             animator.SetTrigger("Shot");
+            RacastFire();
 
         }
         else if (Input.GetButtonDown("Reload"))
@@ -55,5 +61,21 @@ public class Weapon : MonoBehaviour
 
         }
         bulletNumberLabel.text = $"{bullet}/{totalBullet}";
+    }
+
+    private void RacastFire()
+    {
+        // 1. 현재 비추고 있는 화면 정보를 가져온다 .
+        Camera cam = Camera.main;
+        // 2. 발사할 빛과 초점을 설정한다 . (viewport)
+        Ray r = cam.ViewportPointToRay(Vector3.one / 2);
+        // 3. 빛을 쏜 return값을 받을 변수를 설정한다 .
+        RaycastHit hit;
+        // 4. 충돌한 지점 정보를 받을 변수
+        //Vector3 hitPosition = r.
+
+        // 5. 빛을 쏜다 .
+
+
     }
 }

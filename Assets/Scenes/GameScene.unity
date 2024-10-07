@@ -1616,6 +1616,7 @@ MonoBehaviour:
   totalBullet: 32
   maxBulletInMagazine: 8
   bulletNumberLabel: {fileID: 1504997209}
+  trailPrefab: {fileID: 8421345945288851348, guid: bcd6c69ec00f746d8985848ede637c41, type: 3}
 --- !u!1001 &2700939956078166226
 PrefabInstance:
   m_ObjectHideFlags: 0
