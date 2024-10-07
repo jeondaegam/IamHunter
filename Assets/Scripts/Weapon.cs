@@ -34,6 +34,7 @@ public class Weapon : MonoBehaviour
         {
             bullet--;
             animator.SetTrigger("Shot");
+            // 목표물까지 선을 그린다 . 
             RacastFire();
 
         }
@@ -67,15 +68,35 @@ public class Weapon : MonoBehaviour
     {
         // 1. 현재 비추고 있는 화면 정보를 가져온다 .
         Camera cam = Camera.main;
-        // 2. 발사할 빛과 초점을 설정한다 . (viewport)
-        Ray r = cam.ViewportPointToRay(Vector3.one / 2);
-        // 3. 빛을 쏜 return값을 받을 변수를 설정한다 .
+
+        // 2. 빛을 쏜 결과값을 받을 변수
         RaycastHit hit;
-        // 4. 충돌한 지점 정보를 받을 변수
-        //Vector3 hitPosition = r.
+
+        // 3. 발사할 빛과 초점을 설정한다 . (viewport)
+        Ray r = cam.ViewportPointToRay(Vector3.one / 2);
+
+        // 4. 부딪힌 지점 정보를 받을 변수
+        // TODO - 어차피 뒤에서 값이 재설정 되는데 왜 초기화 하는거지 ?
+        // 빛이 어딘가에 부딪히지 않았을 경우 기본값을 설정하는 건가 ? 
+        Vector3 hitPosition = r.origin + r.direction * 200;
 
         // 5. 빛을 쏜다 .
+        if (Physics.Raycast(r, out hit, 1000))
+        {
+            hitPosition = hit.point;
+        } 
 
+        // ------------- 위에 까지는 , 빛이 부딪힐 지점을 설정하는 과정
+
+        // 선을 그린다 .
+        if (trailPrefab != null)
+        {
+            GameObject trail = Instantiate(trailPrefab);
+            Vector3[] pos = new Vector3[] {transform.position, hitPosition};
+            // pos 배열에 들어있는 각 점들 사이에 선을 그린다. 
+            trail.GetComponent<LineRenderer>().SetPositions(pos);
+
+        }
 
     }
 }
