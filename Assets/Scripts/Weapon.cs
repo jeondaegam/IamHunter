@@ -86,7 +86,7 @@ public class Weapon : MonoBehaviour
         if (Physics.Raycast(r, out hit, 1000))
         {
             hitPosition = hit.point;
-        } 
+        }
 
         // ------------- 위에 까지는 , 빛이 부딪힐 지점을 설정하는 과정
 
@@ -94,11 +94,22 @@ public class Weapon : MonoBehaviour
         if (trailPrefab != null)
         {
             GameObject trail = Instantiate(trailPrefab);
-            Vector3[] pos = new Vector3[] {firingPosition.transform.position, hitPosition};
+            Vector3[] pos = new Vector3[] { firingPosition.transform.position, hitPosition };
             // pos 배열에 들어있는 각 점들 사이에 선을 그린다. 
             trail.GetComponent<LineRenderer>().SetPositions(pos);
 
+            // 선을 지운다
+            // RemoveTrail 함수를 Coroutine 형식으로 호출하겠다 .
+            // StartCoroutine은 함수의 종료를 기다리지 않고 다음으로 넘어간다 . 
+            StartCoroutine(RemoveTrail(trail));
         }
 
+    }
+
+    // Couroutine은 IEnumerator 타입이어야 하고, 함수 안에서 마음대로 시간을 끌 수 있다 . 
+    private IEnumerator RemoveTrail(GameObject trail)
+    {
+        yield return new WaitForSeconds(0.3f);
+        Destroy(trail);
     }
 }
