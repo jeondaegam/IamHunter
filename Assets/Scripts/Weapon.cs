@@ -21,7 +21,9 @@ public class Weapon : MonoBehaviour
     // 발사 궤적 그리기
     public GameObject trailPrefab;
     // 총구 위치
-    public GameObject firingPosition;
+    public Transform firingPosition;
+    // 파티클
+    public GameObject shotSparkParticle;
 
 
     void Start()
@@ -34,14 +36,22 @@ public class Weapon : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1") && bullet > 0)
         {
-            bullet--;
+            if (animator != null)
+            {
             animator.SetTrigger("Shot");
-            // 목표물까지 선을 그린다 . 
-            RacastFire();
+            }
 
+            bullet--; // TODO 강의엔 이 부분이 없네 ? 
+            // 목표물까지 선을 그린다 .
+            Fire();
         }
         else if (Input.GetButtonDown("Reload"))
         {
+            if (animator != null)
+            {
+                animator.SetTrigger("Reload");
+            }
+
             // 재장전 해야할 총알 개수 
             int reloadBullet = maxBulletInMagazine - bullet;
 
@@ -66,6 +76,11 @@ public class Weapon : MonoBehaviour
         bulletNumberLabel.text = $"{bullet}/{totalBullet}";
     }
 
+    virtual protected void Fire()
+    {
+        RacastFire();
+    }
+
     private void RacastFire()
     {
         // 1. 현재 비추고 있는 화면 정보를 가져온다 .
@@ -86,6 +101,12 @@ public class Weapon : MonoBehaviour
         if (Physics.Raycast(r, out hit, 1000))
         {
             hitPosition = hit.point;
+
+            // 적중시 먼지 파티클
+            GameObject particle = Instantiate(shotSparkParticle);
+            particle.transform.position = hitPosition;
+            particle.transform.forward = hit.normal;
+
         }
 
         // ------------- 위에 까지는 , 빛이 부딪힐 지점을 설정하는 과정
