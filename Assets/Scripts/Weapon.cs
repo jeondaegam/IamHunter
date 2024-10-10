@@ -40,9 +40,7 @@ public class Weapon : MonoBehaviour
             {
             animator.SetTrigger("Shot");
             }
-
-            bullet--; // TODO 강의엔 이 부분이 없네 ? 
-            // 목표물까지 선을 그린다 .
+            bullet--; 
             Fire();
         }
         else if (Input.GetButtonDown("Reload"))
@@ -81,6 +79,8 @@ public class Weapon : MonoBehaviour
         RacastFire();
     }
 
+
+    // 목표물까지 선을 그린다 .
     private void RacastFire()
     {
         // 1. 현재 비추고 있는 화면 정보를 가져온다 .

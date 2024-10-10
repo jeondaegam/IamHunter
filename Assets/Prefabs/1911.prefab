@@ -185,5 +185,5 @@ MonoBehaviour:
   maxBulletInMagazine: 8
   bulletNumberLabel: {fileID: 0}
   trailPrefab: {fileID: 8421345945288851348, guid: bcd6c69ec00f746d8985848ede637c41, type: 3}
-  firingPosition: {fileID: 6883966187115392228}
+  firingPosition: {fileID: 155675411982970998}
   shotSparkParticle: {fileID: 8990886161169189032, guid: 73757a5dcc8ab409895089aede748f47, type: 3}

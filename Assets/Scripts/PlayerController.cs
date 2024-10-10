@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,10 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public CharacterController characterController;
+
+    // 무기
+    public GameObject[] weapons;
+    public int currentWeapon;
 
     public float walkingSpeed = 7f;
 
@@ -51,6 +56,8 @@ public class PlayerController : MonoBehaviour
 
         isGroundedLocalCheck = false;
         groundedTimer = 0;
+
+        currentWeapon = 0;
     }
 
     private void Update()
@@ -134,7 +141,7 @@ public class PlayerController : MonoBehaviour
             // 중력가속도는 -10으로 고정
             // 물체가 추락할 때 속도가 점점 빨라지다가 특정 속도에 도달하면 그 속도를 유지한다 . 그 작업을 해주는 것
             // 만약 중력 가속도가 계속해서 증가한다면 떨어지는 빗방울도 무한대로 빨라질거야 
-            verticalSpeed =-10;
+            verticalSpeed = -10;
         }
 
         // 수직 방향의 방향벡터 설정 (떨어지는 방향) 
@@ -159,7 +166,7 @@ public class PlayerController : MonoBehaviour
         if (!characterController.isGrounded)
         {
             // 로컬체크 = 땅에 붙어있는데 ? 
-            if(isGroundedLocalCheck)
+            if (isGroundedLocalCheck)
             {
                 // 얼마나 붙어있는지 시간 측정 
                 groundedTimer += Time.deltaTime;
@@ -170,11 +177,12 @@ public class PlayerController : MonoBehaviour
                     isGroundedLocalCheck = false;
                 }
             }
-        } else
+        }
+        else
         {
             // 한번이라도 땅에 붙어있다고 했으니까 
             isGroundedLocalCheck = true;
-            groundedTimer = 0;  
+            groundedTimer = 0;
         }
 
 
@@ -184,6 +192,29 @@ public class PlayerController : MonoBehaviour
             isGroundedLocalCheck = false;
             verticalSpeed = jumpSpeed; // TODO 어케 이것만으로 점프가 되는건지 ? 
         }
+
+        if (Input.GetButtonDown("ChangeWeapon"))
+        {
+            // 현재 값에서 +1
+            // 배열의 범위를 벗어난 경우 0 으로 세팅
+            currentWeapon++;
+            if (currentWeapon >= weapons.Length)
+            {
+                currentWeapon = 0;
+            }
+            UpdateWeapon();
+        }
+
+    }
+    private void UpdateWeapon()
+    {
+        // 우선 모든 무기를 꺼
+        foreach (GameObject w in weapons)
+        {
+            w.SetActive(false);
+        }
+
+        weapons[currentWeapon].SetActive(true);
 
     }
 

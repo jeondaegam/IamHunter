@@ -11,7 +11,7 @@ public class ProjectileWeapon : Weapon
     // 던지는 힘 
     public float projectileForce = 10;
     // n초 후 폭발
-    public float prijectileTimes = 5; 
+    public float projectileTime = 5; 
 
     protected override void Fire()
     {
@@ -37,6 +37,7 @@ public class ProjectileWeapon : Weapon
         // 수류탄 인스턴스 생성 
         GameObject obj = Instantiate(projectilePrefab);
         obj.transform.position = firingPosition.position;
+        obj.GetComponent<Bomb>().time = projectileTime;
         // 던진다 
         obj.GetComponent<Rigidbody>().AddForce(direction, ForceMode.Impulse);
     }
