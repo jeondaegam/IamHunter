@@ -56,7 +56,7 @@ public class Enemy : MonoBehaviour
                 case State.Walk:
                     state = State.Idle;
                     animator.SetTrigger("Idle");
-                    timeForNextState = Random.Range(5f, 7f);
+                    timeForNextState = Random.Range(1f, 2f);
                     // TODO Idle 일때도 쉬는 상태로 따라오는데 ?
                     agent.isStopped = true;
                     break;
