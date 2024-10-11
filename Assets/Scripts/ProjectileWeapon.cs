@@ -38,6 +38,7 @@ public class ProjectileWeapon : Weapon
         GameObject obj = Instantiate(projectilePrefab);
         obj.transform.position = firingPosition.position;
         obj.GetComponent<Bomb>().time = projectileTime;
+        obj.GetComponent<Bomb>().damage = damage;
         // 던진다 
         obj.GetComponent<Rigidbody>().AddForce(direction, ForceMode.Impulse);
     }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Bomb : MonoBehaviour
 {
     public float time;
+    public float damage;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +23,15 @@ public class Bomb : MonoBehaviour
             Invoke("DestroyThis", 0.5f);
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            other.GetComponent<Health>().Damage(damage);
+        }
+    }
+
 
     private void DestroyThis()
     {

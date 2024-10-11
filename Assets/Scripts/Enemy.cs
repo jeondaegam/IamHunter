@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, Health.IHealthListener
 {
     public Transform player;
     NavMeshAgent agent;
@@ -53,7 +53,7 @@ public class Enemy : MonoBehaviour
         switch (state)
         {
             case State.Idle:
-                // 적과 나의 실시간 위치를 기준으로 계산 
+                // TODO - 적과 플레이어의 실시간 위치값을 계산 
                 float distance = (player.position -
                     (transform.position + GetComponent<CapsuleCollider>().center)).magnitude; // magnitude를 붙이면 Vector의 길이를 float으로 받아온다 . 
                 if (distance < 1.0f)
@@ -69,8 +69,8 @@ public class Enemy : MonoBehaviour
                 }
                 break;
             case State.Walk:
-                // agent.remainingDistance: 목표지점과의 남은 거리
-                // (목표지점: 지금은 플레이어가 다른곳으로 이동했을 수도 있기때문에 내가 없을수도 잇음) 
+                // TODO - agent.remainingDistance: agent가 기억하는 목표지점과의 남은 거리
+                // 목표지점: 지금은 플레이어가 다른곳으로 이동했을 수도 있기때문에 그 위치에 플레이어가 없을수도 있음 
                 if (agent.remainingDistance < 1.0f || !agent.hasPath)
                 {
                     StartIdle();
@@ -98,6 +98,7 @@ public class Enemy : MonoBehaviour
         animator.SetTrigger("Idle");
     }
 
+
     private void StartWalk()
     {
         state = State.Walk;
@@ -107,10 +108,31 @@ public class Enemy : MonoBehaviour
         animator.SetTrigger("Walk");
     }
 
+
     private void Attack()
     {
         state = State.Attack;
         timeForNextState = 1.5f;
         animator.SetTrigger("Attack");
+    }
+
+
+    public void Die()
+    {
+        // 적이 죽었을 때의 Action을 구현
+        state = State.Dying;
+        agent.isStopped = true;
+        animator.SetTrigger("Die");
+        // 잠시동안 쓰러져있다 사라지도록 2.5초의 텀을 설정 
+        Invoke("DestroyThis", 2.5f);
+
+        Debug.Log("Dying..");
+
+    }
+
+
+    private void DestroyThis()
+    {
+        Destroy(gameObject);
     }
 }

@@ -25,6 +25,7 @@ public class Weapon : MonoBehaviour
     // 파티클
     public GameObject shotSparkParticle;
 
+    public float damage;
 
     void Start()
     {
@@ -106,6 +107,14 @@ public class Weapon : MonoBehaviour
             GameObject particle = Instantiate(shotSparkParticle);
             particle.transform.position = hitPosition;
             particle.transform.forward = hit.normal;
+
+            // * Ray가 부딪힌게 적이라면 ?
+            if(hit.collider.tag == "Enemy")
+            {
+                Debug.Log($"Attack Enemy: {damage}");
+                // 데미지를 입힌다 : Emeny의 Health 컴포넌트에 데미지 전달   
+                hit.collider.GetComponent<Health>().Damage(damage);
+            }
 
         }
 
