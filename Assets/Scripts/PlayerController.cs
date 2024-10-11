@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, Health.IHealthListener
 {
     public CharacterController characterController;
 
@@ -216,6 +216,11 @@ public class PlayerController : MonoBehaviour
 
         weapons[currentWeapon].SetActive(true);
 
+    }
+
+    public void Die()
+    {
+        Debug.Log("I am dead");
     }
 
     /*

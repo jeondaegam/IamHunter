@@ -6,10 +6,11 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour, Health.IHealthListener
 {
     public Transform player;
+    public float damage;
     NavMeshAgent agent;
     float timeForNextState = 2f;
     Animator animator;
-
+    
     enum State
     {
         Idle,
@@ -83,12 +84,21 @@ public class Enemy : MonoBehaviour, Health.IHealthListener
                     StartIdle();
                 }
                 break;
-
         }
-
-
-
     }
+
+
+    // 공격
+    // 플레이어가 맞았을 경우 데미지를 입힌다 
+    private void OnTriggerEnter(Collider other)
+    {
+       if(other.CompareTag("Player"))
+        {
+            other.GetComponent<Health>().Damage(damage);
+        }
+    }
+
+
 
     private void StartIdle()
     {
