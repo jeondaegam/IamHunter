@@ -221,6 +221,11 @@ public class PlayerController : MonoBehaviour, Health.IHealthListener
     public void Die()
     {
         GetComponent<Animator>().SetTrigger("Die");
+        Invoke("CallGameOver", 1.0f);
+    }
+
+    void CallGameOver()
+    {
         GameManager.instance.GameOverScene();
     }
 
