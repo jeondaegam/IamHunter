@@ -220,7 +220,8 @@ public class PlayerController : MonoBehaviour, Health.IHealthListener
 
     public void Die()
     {
-        Debug.Log("I am dead");
+        GetComponent<Animator>().SetTrigger("Die");
+        GameManager.instance.GameOverScene();
     }
 
     /*

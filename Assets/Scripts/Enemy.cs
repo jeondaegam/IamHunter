@@ -135,14 +135,12 @@ public class Enemy : MonoBehaviour, Health.IHealthListener
         animator.SetTrigger("Die");
         // 잠시동안 쓰러져있다 사라지도록 2.5초의 텀을 설정 
         Invoke("DestroyThis", 2.5f);
-
-        Debug.Log("Dying..");
-
     }
 
 
     private void DestroyThis()
     {
+        GameManager.instance.EnemyDied();
         Destroy(gameObject);
     }
 }

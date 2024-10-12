@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void EnemyDied()
+    public void EnemyDied()
     {
         enemyLeft--;
         if (enemyLeft <= 0)
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void GameOverScene()
+    public void GameOverScene()
     {
         isPlaying = false;
         SceneManager.LoadScene("GameOverScene");
