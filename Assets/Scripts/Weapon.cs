@@ -7,7 +7,7 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     Animator animator;
-    // Start is called before the first frame update
+    public AudioClip gunShotSound;
 
     // 탄창
     // 현재 탄창안의 총알 개수 
@@ -134,6 +134,9 @@ public class Weapon : MonoBehaviour
             StartCoroutine(RemoveTrail(trail));
         }
 
+        // 총소리: PlayOneShot()을 사용하려면 clip이 필수 파라미터
+        // 소리를 한번만 재생 
+        GetComponent<AudioSource>().PlayOneShot(gunShotSound);
     }
 
     // Couroutine은 IEnumerator 타입이어야 하고, 함수 안에서 마음대로 시간을 끌 수 있다 . 

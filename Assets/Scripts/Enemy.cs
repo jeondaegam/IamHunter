@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour, Health.IHealthListener
     NavMeshAgent agent;
     float timeForNextState = 2f;
     Animator animator;
+    AudioSource audio;
     
     enum State
     {
@@ -28,6 +29,7 @@ public class Enemy : MonoBehaviour, Health.IHealthListener
         agent = GetComponent<NavMeshAgent>();
         state = State.Idle;
         agent.isStopped = true;
+        audio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -106,6 +108,7 @@ public class Enemy : MonoBehaviour, Health.IHealthListener
         timeForNextState = Random.Range(1f, 2f);
         agent.isStopped = true;
         animator.SetTrigger("Idle");
+        audio.Stop();
     }
 
 
@@ -116,6 +119,7 @@ public class Enemy : MonoBehaviour, Health.IHealthListener
         agent.destination = player.position;
         agent.isStopped = false;
         animator.SetTrigger("Walk");
+        audio.Play();
     }
 
 
@@ -135,6 +139,7 @@ public class Enemy : MonoBehaviour, Health.IHealthListener
         animator.SetTrigger("Die");
         // 잠시동안 쓰러져있다 사라지도록 2.5초의 텀을 설정 
         Invoke("DestroyThis", 2.5f);
+
     }
 
 

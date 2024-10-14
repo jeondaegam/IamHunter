@@ -16,6 +16,9 @@ public class Health : MonoBehaviour
     float invincibleTime = 0.5f;
     float lastAttacTime;
 
+    // sound
+    public AudioClip dieSound;
+    public AudioClip hitSound;
 
     // Start is called before the first frame update
     void Start()
@@ -47,12 +50,17 @@ public class Health : MonoBehaviour
             lastAttacTime = Time.time;
             Debug.Log($"hp:{hp}, damage:{damage}");
 
+            // 사망 
             if (hp <= 0)
             {
+                GetComponent<AudioSource>().PlayOneShot(dieSound);
                 if (healthListener != null)
                 {
                     healthListener.Die();
                 }
+            } else
+            {
+                GetComponent<AudioSource>().PlayOneShot(hitSound);
             }
         }
     }

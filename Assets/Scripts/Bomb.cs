@@ -7,6 +7,8 @@ public class Bomb : MonoBehaviour
     public float time;
     public float damage;
 
+    public AudioClip explosionSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,9 +20,14 @@ public class Bomb : MonoBehaviour
         time -= Time.deltaTime;
         if (time <= 0)
         {
+            if(!GetComponent<AudioSource>().isPlaying)
+            {
+                GetComponent<AudioSource>().PlayOneShot(explosionSound);
+            }
+
             // 애니메이션 실행 
             GetComponent<Animator>().SetTrigger("Explosion");
-            Invoke("DestroyThis", 0.5f);
+            Invoke("DestroyThis", 3f); // 폭발 사운드 재생시간이 약 3초정도 됨 
         }
     }
 
