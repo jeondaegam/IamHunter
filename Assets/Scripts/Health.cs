@@ -41,6 +41,7 @@ public class Health : MonoBehaviour
         {
             // 체력 감소 
             hp -= damage;
+
             // 체력바 게이지 감소
             if (hpGauge != null)
             {
@@ -48,17 +49,23 @@ public class Health : MonoBehaviour
             }
 
             lastAttacTime = Time.time;
-            Debug.Log($"hp:{hp}, damage:{damage}");
+            //Debug.Log($"hp:{hp}, damage:{damage}");
 
             // 사망 
             if (hp <= 0)
             {
-                GetComponent<AudioSource>().PlayOneShot(dieSound);
+                if (dieSound != null)
+                {
+                    Debug.Log("die sound play");
+                    GetComponent<AudioSource>().PlayOneShot(dieSound);
+
+                }
                 if (healthListener != null)
                 {
                     healthListener.Die();
                 }
-            } else
+            }
+            else if (hitSound != null)
             {
                 GetComponent<AudioSource>().PlayOneShot(hitSound);
             }
