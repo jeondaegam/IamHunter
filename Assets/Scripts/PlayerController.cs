@@ -46,8 +46,8 @@ public class PlayerController : MonoBehaviour, Health.IHealthListener
 
 
         // 수직 각도는 0 으로 맞춘다(스폰됐는데 옆으로 기우뚱 하는 상태면 안되겠지 ? )  
-        verticalAngle = 0; // == Player의 transform.rotation.x
-        // 수평 각도(좌우)는 0이 아닐 수도 있다 (내가 캐릭터를 배치하고 각도를 바꿔놓으면 다를 수 있음
+        verticalAngle = 0; // == Player의 transform.rotation.x ( 똑바로 서있는 상태로 맞춰준다 )
+        // 수평 각도(좌우)는 0이 아닐 수도 있다 (내가 캐릭터를 배치하고 각도를 바꿔놓으면 다를 수 있음 ( 고개를 돌리고 있을수도 있으니) 
         // == Player의 transform.rotation.y값 
         horizontalAngle = transform.localEulerAngles.y; // player 캐릭터의 y축 각도를 가져옴 (좌우 어느 방향을 보고있는지 )
 
